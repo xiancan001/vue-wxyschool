@@ -1,0 +1,1 @@
+import{_ as e,d as t,o,c as s}from"./index-f62cc32f.js";const n=t({data(){return{}},created(){},mounted(){},methods:{},components:{}}),c={class:""};function a(r,d,_,p,m,f){return o(),s("div",c)}const u=e(n,[["render",a]]);export{u as default};
