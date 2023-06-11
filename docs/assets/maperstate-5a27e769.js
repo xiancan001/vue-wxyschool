@@ -1,0 +1,1 @@
+import{bY as e}from"./index-6beb3d85.js";const r=e("map",{state:()=>({mapCenterXy:{lng:null,lat:null}}),getters:{getMapXy(){return this.mapCenterXy}},actions:{setMapXy(t){this.mapCenterXy=t}}});export{r as M};
