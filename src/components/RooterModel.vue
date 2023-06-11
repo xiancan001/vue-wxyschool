@@ -51,9 +51,7 @@
             <el-form ref="dialogFormRef" :model="topic" :rules="rules">
 
 
-                <el-form-item v-for=" (v, ke, i) in  topic " :label="ke" :prop="ke" :key="i"
-                    :label-width="formLabelWidth">{{
-                        i }}
+                <el-form-item v-for=" (v, ke, i) in  topic " :label="ke" :prop="ke" :key="i" :label-width="formLabelWidth">
                     <el-input v-model="topic[ke]" autocomplete="off" clearable :key="ke" />
                 </el-form-item>
 
@@ -221,10 +219,10 @@ export default defineComponent({
                         message: '没有相关数据！！!',
                         type: 'warning',
                     })
-                    this.topics=[];
+                    this.topics = [];
                     // this.requestData={};
-                    this.topic={
-                        "nodata":"NoData"
+                    this.topic = {
+                        "nodata": "NoData"
                     }
                     // this.topic.nodata="NoData";
 
@@ -334,8 +332,14 @@ export default defineComponent({
                         //编辑 保存
                         this.FuncObj[2](this.topic).then(res => {
                             // topicEdit(this.topic).then(res => {
-                            ElMessage({ message: '数据修改成功!', type: 'success' });
-                            this.getTopicPage();
+                            if (res.success) {
+                                ElMessage({ message: '数据修改成功!', type: 'success' });
+                                this.getTopicPage();
+                            }else{
+                                ElMessage({ message: '数据修改失败!', type: 'warning' });
+                            }
+
+
 
                         }).catch(err => {
                             ElMessage.error('修改错误，网络接口出错！')
