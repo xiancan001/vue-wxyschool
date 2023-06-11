@@ -52,7 +52,7 @@ export default defineComponent({
     mounted() {
         // this.increate();
         // this.sum();
-        // this.$router
+        this.$router.push("login");
 
     },
     methods: {
