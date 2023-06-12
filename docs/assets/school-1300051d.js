@@ -1,1 +1,0 @@
-import{a8 as e}from"./index-535e28fc.js";const t=o=>e.request({url:"api/school/add",method:"post",data:o}),r=()=>e.request({url:"api/school/all",method:"get"}),a=o=>e.request({url:"api/school/delete",method:"get",params:o}),l=o=>e.request({url:"api/school/edit",method:"post",data:o});export{a,l as b,r as c,t as s};
