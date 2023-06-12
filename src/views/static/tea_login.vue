@@ -105,15 +105,16 @@ export default defineComponent({
                         // 跳转页面
 
                         if (result.success) {
+                            console.log("登录成功--");
                             const userinfo = result.data.userinfo;
                             console.log(that);
                             that.setToken(userinfo.token);
                             that.fillUserinfo(userinfo);
-                            that.$router.push('/');
+                            that.$router.push('admin');
 
                         }
                         else {
-
+                            console.log("登录失败--");
                             return false;
                         }
 
