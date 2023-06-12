@@ -43,7 +43,9 @@ import { teaLogin } from "../../http";
 import { useUserStore } from "../../store/user";
 export default defineComponent({
     setup() {
-        const src = ref('../../src/assets/logo.png');
+        // const src = ref('../../src/assets/logo.png');
+        const src = ref('assets/logo.png');
+
         return {
             src,
         }
