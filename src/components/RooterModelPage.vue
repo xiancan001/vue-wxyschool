@@ -59,7 +59,6 @@
 
                 <el-form-item v-for=" (v, ke, i) in  topic " :label="ke" :prop="ke" :key="i"
                     :label-width="formLabelWidth">
-                    <!-- {{    i }} -->
                     <el-input v-model="topic[ke]" autocomplete="off" clearable :key="ke" />
                 </el-form-item>
 
