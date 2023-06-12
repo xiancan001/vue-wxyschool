@@ -253,6 +253,7 @@ export default defineComponent({
             //保存意图信息
             this.wantAdd = wantadd;
             this.dat = cloneDeep(dat);
+            console.log("xxxxx");
 
             if (!wantadd) {
                 this.topic = cloneDeep(dat);
