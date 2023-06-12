@@ -46,7 +46,7 @@ import { useUserStore } from "../../store/user";
 
 export default defineComponent({
     setup() {
-        const src = ref('../../src/assets/logo.png');
+        const src = ref('/public/assets/logo.png');
         // const src = ref('assets/logo.png');
 
         return {
