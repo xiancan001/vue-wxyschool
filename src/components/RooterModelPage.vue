@@ -223,13 +223,14 @@ export default defineComponent({
         //显示弹框编辑和添加弹框
         showDialog(wantadd, dat) {
             //保存意图信息
+            console.log("保存数据----------------", wantadd);
             this.wantAdd = wantadd;
             this.dat = cloneDeep(dat);
 
-            if (!wantadd) {
+            if (!wantadd) {   //想保存
                 this.topic = cloneDeep(dat);
                 console.log(dat);
-            } else {
+            } else {  // 想添加
 
                 // this.topic.name = "";
                 // this.topic.awardName = "";
@@ -239,6 +240,7 @@ export default defineComponent({
                 // this.topic.readCount = null;
                 // this.topic.attentionCount = null;
                 // this.topic.attendType = null;
+                this.topic=cloneDeep(this.topic)
                 this.setObjPropsToNull(this.topic);
 
             }
