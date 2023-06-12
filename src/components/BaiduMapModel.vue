@@ -17,6 +17,7 @@
 </template>
 
 <script>
+
 import { defineComponent } from "vue";
 import { Maperstate } from "../store/maperstate";
 export default defineComponent({
