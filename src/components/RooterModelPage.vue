@@ -58,8 +58,8 @@
 
 
                 <el-form-item v-for=" (v, ke, i) in  topic " :label="ke" :prop="ke" :key="i"
-                    :label-width="formLabelWidth">{{
-                        i }}
+                    :label-width="formLabelWidth">
+                    <!-- {{    i }} -->
                     <el-input v-model="topic[ke]" autocomplete="off" clearable :key="ke" />
                 </el-form-item>
 
@@ -201,7 +201,7 @@ export default defineComponent({
                 console.log(res);
                 // topicPage(this.requestData).then(res => {
                 this.topics = res.data.page.records;
-                
+
                 this.resultData = res.data.page;
 
                 this.topic = this.topics[0];
@@ -284,18 +284,29 @@ export default defineComponent({
                     //添加
                     if (this.wantAdd) {
                         //获取日期
-                        this.topic.createTime = (() => {
-                            moment.locale("zh-cn");
-                            return moment().format("YYYY-MM-DDTHH:mm:ss");
-                        })();
+                        // this.topic.createTime = (() => {
+                        //     moment.locale("zh-cn");
+                        //     return moment().format("YYYY-MM-DDTHH:mm:ss");
+                        // })();
                         //
                         this.FuncObj[0](this.topic).then(res => {
                             // topicAdd(this.topic).then(res => {
 
-                            ElMessage({ message: '数据添加成功!', type: 'success' });
-                            //没有多余?
-                            this.requestData.current = Math.ceil((this.resultData.total + 1) / this.resultData.size);
-                            this.getTopicPage();
+                            if (res.success) {
+                                ElMessage({ message: '数据添加成功!', type: 'success' });
+                                //没有多余?
+                                this.requestData.current = Math.ceil((this.resultData.total + 1) / this.resultData.size);
+                                this.getTopicPage();
+                            } else {
+
+                                ElMessage({
+                                    message: '数据添加失败,检测数据规范!!',
+                                    type: 'warning',
+                                })
+
+                            }
+
+
 
                         }).catch(err => {
                             ElMessage.error('添加错误，网络接口出错！')
@@ -305,8 +316,17 @@ export default defineComponent({
                         //编辑 保存
                         this.FuncObj[2](this.topic).then(res => {
                             // topicEdit(this.topic).then(res => {
-                            ElMessage({ message: '数据修改成功!', type: 'success' });
-                            this.getTopicPage();
+
+                            if (res.success) {
+                                ElMessage({ message: '数据修改成功!', type: 'success' });
+                                this.getTopicPage();
+                            } else {
+                                ElMessage({
+                                    message: '数据修改失败,检测数据规范!!',
+                                    type: 'warning',
+                                })
+                            }
+
 
                         }).catch(err => {
                             ElMessage.error('修改错误，网络接口出错！')
@@ -341,25 +361,25 @@ export default defineComponent({
             let clo = Math.floor(Math.random() * colortypes.length);
             return colortypes[clo];
         }
-       
+
     },
-     //开启监听
-     watch: {
-            mainTitle: {
-                handler(newV, oldV) {
-                    this.MainTitle = newV
-                    console.log("<-->");
-                }
-            },
-            muncObj: {
-                deep: true,
-                handler(newV, oldV) {
-                    this.FuncObj = newV;
-                    console.log("----更改数据-----");
-                    this.getTopicPage();
-                }
+    //开启监听
+    watch: {
+        mainTitle: {
+            handler(newV, oldV) {
+                this.MainTitle = newV
+                console.log("<-->");
+            }
+        },
+        muncObj: {
+            deep: true,
+            handler(newV, oldV) {
+                this.FuncObj = newV;
+                console.log("----更改数据-----");
+                this.getTopicPage();
             }
         }
+    }
 
 })
 </script>
