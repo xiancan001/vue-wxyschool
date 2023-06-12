@@ -43,9 +43,12 @@ import { defineComponent, ref } from "vue"
 import { mapActions, storeToRefs } from "pinia";
 import { userLogin } from "../../http";
 import { useUserStore } from "../../store/user";
+// import logo from "/assets/logo.png"
 export default defineComponent({
     setup() {
-        const src = ref('../../src/assets/logo.png');
+        // const src = ref('../../src/assets/logo.png');
+        const src = ref('/public/assets/logo.png');
+
         return {
             src,
         }
