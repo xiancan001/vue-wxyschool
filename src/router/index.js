@@ -10,7 +10,8 @@ import LayoutAdmin from '@/layout/admin/index.vue'
 //白名单
 const whiteList = [
     "/",
-    "/login"
+    "/login",
+    "/tea_login"
 ]
 import { useUserStore } from '../store/user'
 
