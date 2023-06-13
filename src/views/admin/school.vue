@@ -262,17 +262,17 @@ export default defineComponent({
                 // console.log(this.dat);
                 this.setObjPropsToNull(this.dat);
                 this.dat = {
-                    "schoolName": "四川大学",
-                    "province": "四川省",
-                    "area": "武侯区",
-                    "city": "成都市",
-                    "address": "民南路三段17号",
-                    // "createTime": "",
-                    "deleted": 0,
-                    "description": "",
-                    "enable": 0,
-                    "latitude": "104.081969",
-                    "longitude": "30.626604",
+                    // "schoolName": "四川大学",
+                    // "province": "四川省",
+                    // "area": "武侯区",
+                    // "city": "成都市",
+                    // "address": "民南路三段17号",
+                    // // "createTime": "",
+                    // "deleted": 0,
+                    // "description": "",
+                    // "enable": 0,
+                    // "latitude": "104.081969",
+                    // "longitude": "30.626604",
                 }
             }
             //显示页面

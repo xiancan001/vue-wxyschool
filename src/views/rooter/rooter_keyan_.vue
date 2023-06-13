@@ -1,5 +1,5 @@
 <template>
-    <el-link style="margin-left: 20px;" @click="btnLink(i)" href="" v-for="(obj, i ) in information" :type="getRandColor()"
+    <el-link   style="margin-left: 20px;" @click="btnLink(i)" href="" v-for="(obj, i ) in information" :type="getRandColor()"
         target="_blank" :key="i" :userido="userid" >
         {{ i }}、{{ obj.MainTitle }}
     </el-link>
@@ -17,16 +17,21 @@ import { subjectAdd,subjectDelX,subjectEdit,subjectPage } from "../../http/subje
 import { copyrightAdd,copyrightOne,copyrightEdit,copyrightPage } from "../../http/copyright"
 import { patentAdd,patentDel,patentEdit,patentPage } from "../../http/patent"
 
+import {  userinfoAdd,userinfoDel,userinfoEdit,userinfoPage } from "../../http/userinfo"
+
 export default defineComponent({
     data() {
         return {
             userid:1,
+            flash:true,
             information: [
-                { MainTitle: "论文", FuncObj: [paperAdd, paperDel, paperEdit, paperPage] },
-                { MainTitle: "著作", FuncObj: [copyrightAdd,copyrightOne,copyrightEdit,copyrightPage] },
-                { MainTitle: "专利", FuncObj: [patentAdd,patentDel,patentEdit,patentPage] },
-                { MainTitle: "课题", FuncObj: [ subjectAdd,subjectDelX,subjectEdit,subjectPage] }
+                { MainTitle: "论文", FuncObj: [paperAdd, paperDel, paperEdit, paperPage] },//可以删
+                { MainTitle: "<禁止删除>著作", FuncObj: [copyrightAdd,copyrightOne,copyrightEdit,copyrightPage] },
+                { MainTitle: "专利", FuncObj: [patentAdd,patentDel,patentEdit,patentPage] },//可以删
+                { MainTitle: "<禁止删除>课题", FuncObj: [ subjectAdd,subjectDelX,subjectEdit,subjectPage] },
 
+
+                { MainTitle: "用户", FuncObj: [userinfoAdd,userinfoDel,userinfoEdit,userinfoPage] }
             ],
             ObjDataapi: { MainTitle: "论文", FuncObj: [paperAdd, paperDel, paperEdit, paperPage] }
 
@@ -43,6 +48,9 @@ export default defineComponent({
             // console.log(en, i);
             this.ObjDataapi = this.information[i];
             console.log(i, this.ObjDataapi);
+
+            // this.flash=!this.flash;
+
         }
     }
     ,

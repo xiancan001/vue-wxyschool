@@ -32,7 +32,7 @@ export default defineComponent({
                 { MainTitle: "学校", FuncObj: [schoolAdd, schoolRemove, schoolUpdate, schoolAll] },
                 { MainTitle: "部门", FuncObj: [departmentAdd, departmentDelId, departmentEdit, departmentAll] },
                 { MainTitle: "教师", FuncObj: [teacherAdd, teacherDel, teacherUpdate, teacherAll] },
-                { MainTitle: "用户", FuncObj: [userinfoAdd,userinfoDel,userinfoEdit,userinfoAll] }
+                // { MainTitle: "用户", FuncObj: [userinfoAdd,userinfoDel,userinfoEdit,userinfoAll] }
 
 
             ],

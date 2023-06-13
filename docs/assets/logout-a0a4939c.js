@@ -1,0 +1,1 @@
+import{_ as t,d as o,o as s,c as r,u as n}from"./index-ae53bb55.js";const c=o({data(){return{}},created(){},mounted(){n().$reset(),this.$router.push("/login")},methods:{},components:{}}),a={class:""};function d(e,p,u,_,i,m){return s(),r("div",a," 登出界面！ ")}const l=t(c,[["render",d]]);export{l as default};

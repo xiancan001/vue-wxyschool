@@ -112,12 +112,12 @@ const routes = [
             {
                 path: '/teacher',
                 name: 'teacher',
-                component: () => import('../views/static/teacher.vue')
+                component: () => import('../views/admin/teacher.vue')
             },
             {
                 path: '/teakeyan',
                 name: 'teakeyan',
-                component: () => import('../views/static/teakeyan.vue')
+                component: () => import('../views/admin/teakeyan.vue')
             },
             {
                 path: '/department',

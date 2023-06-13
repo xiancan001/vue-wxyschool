@@ -18,16 +18,6 @@
                     :formatter="getCategoryNameFormat" />
 
 
-                <!-- <el-table-column prop="categoryId" label="类别" width="80" :formatter="getCategoryNameFormat" />
-                <el-table-column prop="id" label="编号" width="80" />
-                <el-table-column prop="name" label="名称" width="120" />
-                <el-table-column prop="content" label="内容" width="280" />
-                <el-table-column prop="awardName" label="奖品" width="180" />
-                <el-table-column prop="attendType" label="参与方式" width="180" />
-                <el-table-column prop="attentionCount" label="关注数" width="100" />
-                <el-table-column prop="readCount" label="阅览量" width="100" /> -->
-                <!-- <el-table-column prop="createTime" label="创建时间" width="180" /> -->
-
                 <el-table-column fixed="right" label="功能管理" width="170">
                     <template #default="scope">
                         <el-button size="small" @click="showDialog(false, scope.row)">编辑</el-button>
@@ -57,32 +47,11 @@
             <el-form ref="dialogFormRef" :model="topic" :rules="rules">
 
 
-                <el-form-item v-for=" (v, ke, i) in  topic " :label="ke" :prop="ke" :key="i"
-                    :label-width="formLabelWidth">
+                <el-form-item v-for=" (v, ke, i) in  topic " :label="ke" :prop="ke" :key="i" :label-width="formLabelWidth">
                     <el-input v-model="topic[ke]" autocomplete="off" clearable :key="ke" />
                 </el-form-item>
 
-                <!--            <el-form-item label="话题类别" prop="categoryId" :label-width="formLabelWidth">
-                    <el-input v-model.number="topic.categoryId" autocomplete="off" clearable />
-                </el-form-item>
-                <el-form-item label="名称" prop="name" :label-width="formLabelWidth">
-                    <el-input maxlength="20" v-model="topic.name" autocomplete="off" clearable />
-                </el-form-item>
-                <el-form-item label="内容" prop="content" :label-width="formLabelWidth">
-                    <el-input v-model="topic.content" autocomplete="off" clearable />
-                </el-form-item>
-                <el-form-item label="奖品" prop="awardName" :label-width="formLabelWidth">
-                    <el-input v-model="topic.awardName" autocomplete="off" clearable />
-                </el-form-item>
-                <el-form-item label="参与方式" prop="attendType" :label-width="formLabelWidth">
-                    <el-input v-model="topic.attendType" autocomplete="off" clearable />
-                </el-form-item>
-                <el-form-item label="关注数" prop="attentionCount" :label-width="formLabelWidth">
-                    <el-input v-model.number="topic.attentionCount" autocomplete="off" clearable />
-                </el-form-item>
-                <el-form-item label="阅览量" prop="readCount" :label-width="formLabelWidth">
-                    <el-input v-model.number="topic.readCount" autocomplete="off" clearable />
-                </el-form-item> -->
+
             </el-form>
 
             <template #footer>
@@ -136,18 +105,7 @@ export default defineComponent({
                 "size": 7
             },
             topic: {
-                // "id": 0,
-                // "attendCount": 0,
-                // "attendType": "",
-                // "attentionCount": 0,
-                // "awardName": "",
-                // "categoryId": 0,
-                // "content": "",
-                // "createTime": "",
-                // "name": "",
-                // "readCount": 0,
-                // "startTime": "",
-                // "endTime": "",
+
 
             },
             choseRow: {},//选中的某一行
@@ -193,20 +151,47 @@ export default defineComponent({
         //     console.log(this.topics);
         //     console.log();
         // },
-
         getTopicPage() {
-            console.log(this.FuncObj);
             this.FuncObj[3](this.requestData).then(res => {
-                console.log(res);
-                // topicPage(this.requestData).then(res => {
-                this.topics = res.data.page.records;
 
-                this.resultData = res.data.page;
+                //第一次请求
+                if (res.success) {
 
-                this.topic = this.topics[0];
+                    console.log(res);
+                    this.topics = res.data.page.records;
+                    if (res.data.page) {
+                        this.resultData = res.data.page;
+                    }
+                    this.topic = this.topics[0];
+
+                } else {
+                    //获取数据失败就跳到第一页去
+                    // this.requestData.
+                    console.log("请求失败 ===> ", res);
+                    //发起一个一定会成功的请求
+                    this.FuncObj[3]({
+                        "current": 1,
+                        "size": 7
+                    }).then(res => {
+                        if (res.success) {
+
+                            //页码对不上就发起主界面小数据请求
+                            this.resultData = res.data.page;
+
+                            //将请求的相关数据
+                            this.topics = res.data.page.records;
+
+                        } else {
+                            ElMessage({ message: '该项数据为空 !!!',  type: 'warning' })
+                        }
+                    })
+
+                }
 
             }).catch(err => {
+
                 console.log(err);
+
             })
         },
 
@@ -240,7 +225,7 @@ export default defineComponent({
                 // this.topic.readCount = null;
                 // this.topic.attentionCount = null;
                 // this.topic.attendType = null;
-                this.topic=cloneDeep(this.topic)
+                this.topic = cloneDeep(this.topic)
                 this.setObjPropsToNull(this.topic);
 
             }
@@ -256,19 +241,21 @@ export default defineComponent({
             this.FuncObj[1](params).then(res => {
                 // topicDelId(params).then(res => {
                 if (res.success) {
-                    console.log("--删除成功--");
+
                     this.getTopicPage(id)
                     if (id % 2 != 0) { //该处应该判断为奇数页面就删除前进一个也买呢
-                        this.getTopicPage(this.requestData.current - 1);
+                        // console.log("--删除成功- %2-");
+                        this.requestData.current -= 1;
+                        this.getTopicPage();
                     }
                     else {
-                        console.log("--删除成功!--");
+                        // console.log("--删除成功!-else--");
                         this.getTopicPage(this.requestData.current);
                     }
                     ElMessage({ message: '数据删除成功!', type: 'success' });
                 } else {
                     ElMessage({
-                        message: '删除警告,数据删除失败!',
+                        message: res.msg + ', 数据删除失败!',
                         type: 'warning',
                     })
                 }
@@ -281,7 +268,7 @@ export default defineComponent({
         async save() {
             await this.$refs.dialogFormRef.validate((valid, fields) => {
                 if (valid) {
-                    console.log('submit!')
+                    // console.log('submit!')
                     //添加
                     if (this.wantAdd) {
                         //获取日期
@@ -301,7 +288,7 @@ export default defineComponent({
                             } else {
 
                                 ElMessage({
-                                    message: '数据添加失败,检测数据规范!!',
+                                    message: res.msg + ' 数据添加失败! ',
                                     type: 'warning',
                                 })
 
@@ -319,11 +306,11 @@ export default defineComponent({
                             // topicEdit(this.topic).then(res => {
 
                             if (res.success) {
-                                ElMessage({ message: '数据修改成功!', type: 'success' });
+                                ElMessage({ message: '数据修改成功! ', type: 'success' });
                                 this.getTopicPage();
                             } else {
                                 ElMessage({
-                                    message: '数据修改失败,检测数据规范!!',
+                                    message: res.msg + ' 数据修改失败!! ',
                                     type: 'warning',
                                 })
                             }
@@ -335,7 +322,7 @@ export default defineComponent({
                     }
                     this.dialogFormVisible = false;
                 } else {
-                    console.log('error submit!', fields)
+                    // console.log('error submit!', fields)
                 }
             })
 
@@ -369,14 +356,14 @@ export default defineComponent({
         mainTitle: {
             handler(newV, oldV) {
                 this.MainTitle = newV
-                console.log("<-->");
+                console.log("点击了新的选项!!!");
             }
         },
         muncObj: {
             deep: true,
             handler(newV, oldV) {
                 this.FuncObj = newV;
-                console.log("----更改数据-----");
+                // console.log("----更改数据-----");
                 this.getTopicPage();
             }
         }

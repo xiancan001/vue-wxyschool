@@ -10,6 +10,16 @@ const userinfoAll = () => {
 }
 
 
+//分页查询业务
+const userinfoPage = (data) => {
+   return request({
+      url: '/api/userinfo/page', //url=baseURL+url
+      method: 'post',
+      data
+
+   })
+}
+
 //删除业务
 const userinfoDel = (data) => {
    return request({
@@ -49,5 +59,6 @@ export  {
    userinfoDel,
    userinfoEdit,
    userinfoAdd,
+   userinfoPage
    
 }
