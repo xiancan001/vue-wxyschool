@@ -133,7 +133,7 @@ export default defineComponent({
             //     "size": 7
             // },
             topic: {
-                // "id": 0,
+                "id": 0,
 
                 "schoolName": "",
                 "province": "",
@@ -141,7 +141,7 @@ export default defineComponent({
                 "city": "",
                 "address": "",
                 // "createTime": "",
-                "deleted": 0,
+                // "deleted": 0,
                 "description": "",
                 "enable": 0,
                 "latitude": "",
@@ -198,35 +198,51 @@ export default defineComponent({
         },
 
         //去部门页面
-        goToDepartmentPage(scope){
-            console.log("----去看看部门----",scope);
+        goToDepartmentPage(scope) {
+            console.log("----去看看部门----", scope);
             // this.$router.push({name:'' ,params:{   }   })
-            this.$router.push({name:'department' , query:{ id:scope.row.id}    })
+            this.$router.push({ name: 'department', query: { id: scope.row.id } })
 
         },
         //去教师页面
-        goToTeacherPage(scope){
+        goToTeacherPage(scope) {
             //跳转   {name:'teacher' , params:{ id:'6'} 会有点问题 参数拿不到
-            console.log("---去教师 -scope----",scope.row.schoolName);
-            this.$router.push({name:'teacher' , query:{ school:scope.row.schoolName}    })
+            console.log("---去教师 -scope----", scope.row.schoolName);
+            this.$router.push({ name: 'teacher', query: { school: scope.row.schoolName } })
         },
 
         getTopicPage() {
             this.FuncObj[3](this.requestData).then(res => {
-                // topicPage(this.requestData).then(res => {
-                console.log(Object.values(res.data)[0]);
-                this.topics = Object.values(res.data)[0];
 
-                this.resultData = res.data;
+                console.log("-------page-拿到的数据--------", res);
+                if (res.success) {
+                    // this.topics = res.data.areas;
+                    this.topics = Object.values(res.data)[0];
+                    this.resultData = res.data;
 
-                // this.topic = cloneDeep(this.topics[0]);//保存了所有属性，实际需要的是部分属性
+                    this.topic = cloneDeep(this.topics[0]);
 
-                // let alshux = cloneDeep(this.topics[0]); //有所有属性
-                // console.log(alshux);
+                    console.log(this.topic);
+                    this.setObjPropsToNull(this.topic);
 
-                // //拿取部分属性
-                // this.getSomeThing(this.topic, alshux);
-                // this.setObjPropsToNull(this.topic);
+                } else {
+                    ElMessage({
+                        message: '没有相关数据！！!',
+                        type: 'warning',
+                    })
+                    this.topics = [];
+                    // this.requestData={};
+                    this.topic = {
+                        "nodata": "NoData"
+                    }
+
+
+
+                }
+
+
+
+
 
 
             }).catch(err => {
@@ -234,16 +250,6 @@ export default defineComponent({
             })
         },
 
-        // //改变数据量
-        // handleSizeChange(val) {
-        //     this.requestData.size = val;
-        //     this.getTopicPage();
-        // },
-        // //改变页码
-        // handleCurrentChange(val) {
-        //     this.requestData.current = val
-        //     this.getTopicPage();
-        // },
         //显示弹框编辑和添加弹框
         showDialog(wantadd, dat) {
             //保存意图信息
@@ -262,17 +268,7 @@ export default defineComponent({
                 // console.log(this.dat);
                 this.setObjPropsToNull(this.dat);
                 this.dat = {
-                    // "schoolName": "四川大学",
-                    // "province": "四川省",
-                    // "area": "武侯区",
-                    // "city": "成都市",
-                    // "address": "民南路三段17号",
-                    // // "createTime": "",
-                    // "deleted": 0,
-                    // "description": "",
-                    // "enable": 0,
-                    // "latitude": "104.081969",
-                    // "longitude": "30.626604",
+         
                 }
             }
             //显示页面

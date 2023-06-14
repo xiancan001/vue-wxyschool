@@ -19,7 +19,7 @@ export function teacherAll(){
 
 export function teacherDel(data){
 	return request({
-		url: `/api/teacher/delete?id=${data}`,
+		url: `/api/teacher/delete?id=${data.id}`,
 		method: 'get'
 	});
 }
