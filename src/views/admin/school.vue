@@ -30,7 +30,6 @@
                     </template>
                 </el-table-column>
 
-
                 <el-table-column label="地址">
                     <template #default="scope">
                         <el-button size="small" @click="showMapVisible(scope)">位置</el-button>
@@ -90,16 +89,6 @@
         </el-dialog>
 
 
-        <!-- 分页 -->
-        <!-- <div style="margin-top: 10px;margin-left: 30%;">
-            <el-pagination v-model:current-page="resultData.current" v-model:page-size="resultData.size" :small="small"
-                :disabled="disabled" :background="background" :page-sizes="pageSize"
-                layout="total, sizes, prev, pager, next, jumper" :total="resultData.total" @size-change="handleSizeChange"
-                @current-change="handleCurrentChange" />
-        </div>
-         -->
-
-
     </div>
 </template>
 
@@ -123,15 +112,12 @@ export default defineComponent({
             MainTitle: "学校",
             FuncObj: [schoolAdd, schoolRemove, schoolUpdate, schoolAll],
 
-
-            // pageSize: [3, 5, 7, 10, 20, 30],
             dat: {},//正在操作的数据对象
             topics: [],   //话题
             resultData: {},
-            // requestData: {
-            //     "current": 1,
-            //     "size": 7
-            // },
+
+
+
             topic: {
                 "id": 0,
 
@@ -156,11 +142,19 @@ export default defineComponent({
             dialogVisible: false,//确定提示框
             wantAdd: true, //添加 或者 修改的 意图
             rules: {
-                // "categoryId": [
-                //     { required: true, message: '必须填写话题类别!', trigger: 'blur' },
-                //     // { type: 'number', message: '只能输入数字,请输入正确的数据类型!!!', trigger: 'blur' },
-                // ],
+     
+                
+                "latitude": [
+                    { required: true, message: '必须填写纬度!', trigger: 'blur' },
+                    // { type: 'number', message: '只能输入数字,请输入正确的数据类型!!!', trigger: 'blur' },
+                ],
+                "longitude": [
+                    { required: true, message: '必须填写经度！', trigger: 'blur' },
+                    // { type: 'number', message: '只能输入数字,请输入正确的数据类型!!!', trigger: 'blur' },
+                ],
 
+
+  
             }
         }
     },
@@ -210,19 +204,20 @@ export default defineComponent({
             console.log("---去教师 -scope----", scope.row.schoolName);
             this.$router.push({ name: 'teacher', query: { school: scope.row.schoolName } })
         },
-
+        //拿到数据
         getTopicPage() {
             this.FuncObj[3](this.requestData).then(res => {
 
-                console.log("-------page-拿到的数据--------", res);
+                // console.log("-------page-拿到的数据--------", res);
                 if (res.success) {
                     // this.topics = res.data.areas;
                     this.topics = Object.values(res.data)[0];
                     this.resultData = res.data;
 
-                    this.topic = cloneDeep(this.topics[0]);
+                    // this.topic = cloneDeep(this.topics[0]);
+                    this.setSomeThing(this.topic,this.topics[0],1   )//拿了部分的
 
-                    console.log(this.topic);
+
                     this.setObjPropsToNull(this.topic);
 
                 } else {
@@ -236,13 +231,7 @@ export default defineComponent({
                         "nodata": "NoData"
                     }
 
-
-
                 }
-
-
-
-
 
 
             }).catch(err => {
@@ -261,14 +250,15 @@ export default defineComponent({
                 //拿取部分属性
                 this.setSomeThing(this.topic, this.dat, 2);
                 // console.log(dat);
+
             } else {
 
                 //属性清空
-                console.log("-----------------属性清空-------------------");
+                // console.log("-----------------属性清空-------------------");
                 // console.log(this.dat);
                 this.setObjPropsToNull(this.dat);
                 this.dat = {
-         
+
                 }
             }
             //显示页面
@@ -280,13 +270,10 @@ export default defineComponent({
                 id: id
             };
             this.FuncObj[1](params).then(res => {
-                // topicDelId(params).then(res => {
                 if (res.success) {
-                    console.log("--删除成功--");
                     ElMessage({ message: '数据删除成功!', type: 'success' });
                     this.getTopicPage(id)
-                    
-                   
+
                 } else {
                     ElMessage({
                         message: '删除警告,数据删除失败!',
@@ -302,41 +289,47 @@ export default defineComponent({
         async save() {
             await this.$refs.dialogFormRef.validate((valid, fields) => {
                 if (valid) {
-                    console.log('submit!')
-                    //添加
+                    // console.log('submit!')
+                    
+                    
                     if (this.wantAdd) {
-                        console.log("   -------添加-----   ");
+                        //数据 添加
 
 
                         this.FuncObj[0](this.dat).then(res => {
                             // topicAdd(this.topic).then(res => {
+                            if (res.success) {
+                                ElMessage({ message: '数据添加成功!', type: 'success' });
+                                //没有多余?
+                                // this.requestData.current = Math.ceil((this.resultData.total + 1) / this.resultData.size);
+                                this.getTopicPage();
 
-                            ElMessage({ message: '数据添加成功!', type: 'success' });
-                            //没有多余?
-                            this.requestData.current = Math.ceil((this.resultData.total + 1) / this.resultData.size);
-                            this.getTopicPage();
+                            }else{
+                                ElMessage({ message: '数据添加失败!', type: 'warning' });
+                                console.log( "数据添加失败!----->",res );
+                            }
 
                         }).catch(err => {
                             ElMessage.error('添加错误，网络接口出错！')
+                            console.log( "网路接口错误--->",res   );
                         })
 
                     } else {
+                        //数据删除
 
                         this.setSomeThing(this.topic, this.dat, 1);
                         //编辑 保存
                         this.FuncObj[2](this.dat).then(res => {
-                            // topicEdit(this.topic).then(res => {
 
                             if (res.success) {
                                 ElMessage({ message: '数据修改成功!', type: 'success' });
-
                                 this.getTopicPage();
 
                             } else {
+                                console.log(" 数据修改失败!--->  ", res);
                                 ElMessage({ message: '数据修改失败!', type: 'warning' });
-                            }
 
-                            console.log(res);
+                            }
 
 
                         }).catch(err => {
