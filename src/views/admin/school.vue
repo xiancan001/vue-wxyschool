@@ -283,15 +283,10 @@ export default defineComponent({
                 // topicDelId(params).then(res => {
                 if (res.success) {
                     console.log("--删除成功--");
-                    this.getTopicPage(id)
-                    if (id % 2 != 0) { //该处应该判断为奇数页面就删除前进一个也买呢
-                        this.getTopicPage(this.requestData.current - 1);
-                    }
-                    else {
-                        console.log("--删除成功!--");
-                        this.getTopicPage(this.requestData.current);
-                    }
                     ElMessage({ message: '数据删除成功!', type: 'success' });
+                    this.getTopicPage(id)
+                    
+                   
                 } else {
                     ElMessage({
                         message: '删除警告,数据删除失败!',
@@ -299,8 +294,8 @@ export default defineComponent({
                     })
                 }
             }).catch(err => {
-                console.log("访问错误", err);
-                ElMessage.error('删除错误，代码可能有错！' + err)
+                // console.log("访问错误", err);
+                // ElMessage.error('删除错误，代码可能有错！' + err)
             })
         },
         // 添加保存  和  编辑保存

@@ -1,1 +1,0 @@
-import{_ as o,d as e,o as s,c as t}from"./index-d5b0a6e4.js";const r=e({}),c={class:""};function n(a,p,_,d,f,i){return s(),t("div",c,"forgetpassword页面")}const m=o(r,[["render",n]]);export{m as default};
