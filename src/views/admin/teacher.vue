@@ -93,8 +93,6 @@ export default defineComponent({
     data() {
         return {
 
-
-
             dialogMapVisible: false,
             MainTitle: "教师",
             FuncObj: [teacherAdd, teacherDel, teacherUpdate, teacherAll],
